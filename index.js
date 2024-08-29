@@ -15,6 +15,20 @@ app.get("/", (req, res) => {
   res.send("<h1>Important Websites API</h1>");
 });
 
+//Deleting data from the database
+app.delete("/cool/:id", async (req, res) => {
+  try {
+    const {id} = req.params;
+    const website = await Websites.findByIdAndDelete(id);
+    if (!website) {
+      res.status(404).json({ message: "Website Not Found" });
+    }
+    res.status(200).json({ message: "Item Deleted Successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 //Posting data to the database
 app.post("/cool", async (req, res) => {
   try {
